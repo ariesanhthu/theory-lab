@@ -1,95 +1,70 @@
-#include "SelectionSort.h"
-#include "InsertionSort.h"
-#include "Interchange.h"
-#include "SATest.h"
-#include <iostream>
+﻿#include "SortAlgorithm.h"
+#include "Student.h"
 #include <string>
 
 using namespace std;
 
-void printMenu()
-{
-    cout << "================================\n";
-    cout << "Nhap chuc nang can test: \n";
-    cout << "0. Thoat chuong trinh!\n";
-    cout << "1. Short test\n";
-    cout << "2. Double test\n";
-    cout << "3. String test\n";
-}
-
-void printMenuAlgo()
-{
-    cout << "================================\n";
-    cout << "Chon thuat toan can test: \n";
-    cout << "0. Thoat khoi lua chon!\n";
-    cout << "1. Selection sort \n";
-    cout << "2. Insertion sort \n";
-    cout << "3. Interchange sort \n";
-}
-
-template <class T>
-void Test(SATest<T>& saTest)
-{
-    printMenuAlgo();
-    int optionAlgo;
-
-    cout << "Nhap lua chon cua ban: ";
-    cin >> optionAlgo;
-
-    switch (optionAlgo)
-    {
-    case 1:
-        saTest = SATest<T>(new SelectionSort<T>());
-        break;
-    case 2:
-        saTest = SATest<T>(new InsertionSort<T>());
-        break;
-    case 3:
-        saTest = SATest<T>(new InterchangeSort<T>());
-        break;
-    default:
-        cout << "Thoat khoi lua chon\n";
-        return;
-    }
-    saTest.run(cin, cout);
-}
-
 int main() {
-    int option;
+    // Kiểu float
+    float a[] = { 1.4F, -5.2F, 3.3F, 0 };
+    int n = sizeof(a) / sizeof(a[0]);
 
-    while (true)
+    SortAlgorithm<float>* algFloat = SortAlgorithm<float>::getObject(SortAlgorithm<float>::InterchangeSort);
+    algFloat->Sort(a, n);
+    
+    cout << "Mang floats sau khi sap xep:" << endl;
+    
+    for (int i = 0; i < n; ++i) 
     {
-        printMenu();
-        cout << "Nhap lua chon cua ban: ";
-        cin >> option;
+        cout << a[i] << "\t";
+    }
+    
+    cout << endl;
 
-        switch (option)
-        {
-        case 1:
-        {
-            SATest<short> saTest(nullptr);
-            Test(saTest);
-            break;
-        }
-        case 2:
-        {
-            SATest<double> saTest(nullptr);
-            Test(saTest);
-            break;
-        }
-        case 3:
-        {
-            SATest<string> saTest(nullptr);
-            Test(saTest);
-            break;
-        }
-        case 0:
-            cout << "Ket thuc chuong trinh!\n";
-            return 0;
-        default:
-            cout << "Lua chon khong hop le. Vui long chon lai.\n";
-            break;
-        }
+    // Kiểu char
+    char b[] = { 'A', 'B', 'C', 'D' };
+    n = sizeof(b) / sizeof(b[0]);
+    
+    SortAlgorithm<char>* algChar = SortAlgorithm<char>::getObject(SortAlgorithm<char>::SelectionSort);
+    
+    algChar->Sort(b, n);
+    
+    cout << "Mang chars sau khi sap xep:" << endl;
+    
+    for (int i = 0; i < n; ++i) {
+        cout << b[i] << "\t";
+    }
+    cout << endl;
+
+    // Kiểu string
+    string c[] = { "ABC", "CDB", "EFC", "SPZ" };
+    
+    n = sizeof(c) / sizeof(c[0]);
+    
+    SortAlgorithm<string>* algString = SortAlgorithm<string>::getObject(SortAlgorithm<string>::InsertionSort);
+    
+    algString->Sort(c, n);
+    
+    cout << "Mang strings sau khi sap xep:" << endl;
+    
+    for (int i = 0; i < n; ++i) {
+        cout << c[i] << "\t";
+    }
+    cout << endl;
+
+    // Kiểu STUDENT
+    STUDENT d[] = { STUDENT("abc", 8.5), STUDENT("def", 9.5) , STUDENT("def", 5)};
+    
+    n = sizeof(d) / sizeof(d[0]);
+    
+    SortAlgorithm<STUDENT>* algStudent = SortAlgorithm<STUDENT>::getObject(SortAlgorithm<STUDENT>::SelectionSort);
+    
+    algStudent->Sort(d, n);
+    
+    cout << "Mang STUDENT sau khi sap xep:" << endl;
+    
+    for (int i = 0; i < n; ++i) {
+        cout << d[i] << endl;
     }
 
     return 0;
