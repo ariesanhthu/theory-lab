@@ -1,6 +1,6 @@
 #pragma once
 
-typedef unsigned short UINT16;
+#include "utils.h"
 
 class CTime {
 private:

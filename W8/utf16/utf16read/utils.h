@@ -28,53 +28,20 @@ namespace utils {
 		return f.good();
 	}
 
-	inline string wstring_to_string(const wstring& wstr) {
-		string res = "";
-		int i = 0, len = wstr.length();
-		while (i < len) {
-			UINT8 tmp = ((UINT8)wstr[i]) & 0xFF00;
-			if (tmp != 0) res += '?';
-			else res += static_cast<char>(wstr[i]);
-			i++;
-		}
-		return res;
-	}
-	inline wstring string_to_wstring(const string& str) {
-		wstring res = L"";
-		int i = 0, len = str.length();
-		while (i < len) {
-			res += static_cast<wchar_t>(static_cast<UINT16>(str[i]));
-			i++;
-		}
-		return res;
-	}   
+	inline std::wstring customGetline(std::wistream& in) {
+		std::wstring line;
+		wchar_t ch;
 
-	inline bool ascii_fileCheck(wifstream& in, UINT8 maxChar = 0x7f) {
-		bool res = true; 
-		UINT8 chr; 
-		in.seekg(0, ios::beg); 
-		while (in.get((wchar_t&)chr)) {
-			int ch = chr; 
-			if (ch == 0x1a) continue; 
-			if (ch > maxChar || (ch < 0x20 && ch != '\n' && ch != '\r' && ch == '\t')) {
-				res = false;
+		while (in.get(ch)) {
+			if (ch == L'\n') break;
+			if (ch == L'\r') {
+				if (in.peek() == L'\n') in.get();
 				break;
 			}
+			line += ch;
 		}
-		return res;
-	}
-	inline bool unicode_fileCheck(wifstream& in) {
-		bool res = true; 
-		UINT16 wchr;
-		in.seekg(2, ios::beg);
-		while (in.read(reinterpret_cast<wchar_t*>(&wchr), sizeof(wchr))) {
-			if (wchr == 0x1a) continue; 
-			if (wchr < 0x20 && wchr != '\n' && wchr != '\r' && wchr != '\t') {
-				res = false;
-				break;
-			}
-		}
-		return res;
+
+		return line;
 	}
 };
 

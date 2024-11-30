@@ -2,6 +2,8 @@
 #include <fstream>
 #include "CMessage.h"
 #include "utils.h"
+#include <locale>
+#include <codecvt>
 
 using namespace std;
 using namespace utils;
@@ -23,11 +25,14 @@ int main() {
         delete mes;
         exit(1);
     }
+    fin.imbue(std::locale(fin.getloc(), new std::codecvt_utf16<wchar_t, 0x10FFFF, std::little_endian>));
+    fout.imbue(std::locale(fin.getloc(), new std::codecvt_utf16<wchar_t, 0x10FFFF, std::little_endian>));
 
     mes->finput(fin);
     mes->foutput(fout);
 
     delete mes;
+
     fin.close();
     fout.close();
 
